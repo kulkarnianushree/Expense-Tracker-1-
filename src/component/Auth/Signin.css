@@ -1,0 +1,77 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Sign-up box styles */
+  .signup-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Increased width */
+  }
+  
+  .signup-container h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .signup-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Input and label styles */
+  .signup-container input {
+    border: 1px solid #ccc;
+    padding: 15px; /* Increased padding */
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-size: 16px; /* Increased font size */
+    width: calc(100% - 30px); /* Ensure input fields take up full width */
+  }
+  
+  .signup-container input::placeholder {
+    color: #aaa;
+    font-size: 16px; /* Ensure placeholder text is larger as well */
+  }
+  
+  /* Sign-up button styles */
+  .signup-container button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px; /* Increased padding */
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .signup-container button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Login link styles */
+  .signup-container .login-button {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid lightgreen;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    color: #007bff;
+  }
+  
+  .signup-container .login-button:hover {
+    background-color: #e0f7e9;
+  }
+  
