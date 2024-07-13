@@ -1,7 +1,10 @@
+// Signin.js
 import React, { useState } from "react";
 import './Signin.css';
+import Login from "./Login";
 
 const Signin = () => {
+  const [isLogin, setIsLogin] = useState(false);
   const [UserDetail, setUserDetail] = useState({
     Email: "",
     Password: "",
@@ -72,53 +75,63 @@ const Signin = () => {
     }
   };
 
+  const LoginButtonHandler = () => {
+    setIsLogin(true);
+  };
+
   const FormSubmitHandler = (event) => {
     event.preventDefault();
     setUserDetail({
-        Email:'',
-        Password:'',
-        ConfirmPassword:''
-    })
+      Email: '',
+      Password: '',
+      ConfirmPassword: ''
+    });
   };
 
   return (
     <div className="signup-container">
-      <h1>Sign Up</h1>
-      <form onSubmit={FormSubmitHandler}>
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={EmailChangeHandler}
-            value={UserDetail.Email}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={PasswordChangeHandler}
-            value={UserDetail.Password}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            onChange={ConfirmPasswordChangeHandler}
-            value={UserDetail.ConfirmPassword}
-            required
-          />
-        </div>
-        <button type="submit" onClick={SigninButtonHandler}>
-          Sign Up
-        </button>
-      </form>
-      <div className="login-button">
-        Have an account? Login
-      </div>
+      {isLogin ? (
+        <Login />
+      ) : (
+        <>
+          <h1>Sign Up</h1>
+          <form onSubmit={FormSubmitHandler}>
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                onChange={EmailChangeHandler}
+                value={UserDetail.Email}
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Password"
+                onChange={PasswordChangeHandler}
+                value={UserDetail.Password}
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                onChange={ConfirmPasswordChangeHandler}
+                value={UserDetail.ConfirmPassword}
+                required
+              />
+            </div>
+            <button type="submit" onClick={SigninButtonHandler}>
+              Sign Up
+            </button>
+          </form>
+          <button className="login-button" onClick={LoginButtonHandler}>
+            Have an account? Login
+          </button>
+        </>
+      )}
     </div>
   );
 };
