@@ -17,9 +17,15 @@ const Navigation = () => {
       <ul>
        
         {authctx.isLoggedIn && (
-          <li>
-            <NavLink to="/welcome"/>
-          </li>
+            <ul>
+                <li>
+                    <NavLink to="/welcome"/>
+                </li>
+                <li>
+                    <NavLink to='/Profile'/>
+                </li>
+            </ul>
+        
         )}
       </ul>
       {authctx.isLoggedIn && (
