@@ -43,7 +43,7 @@ const Expense = ({ onEdit }) => {
       setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== expenseId));
       alert('Successfully deleted expense');
     } catch (error) {
-      alert(error.message);
+      alert(error.message)
     }
   };
 
