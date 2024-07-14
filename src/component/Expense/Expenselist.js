@@ -24,6 +24,25 @@ const ExpenseList = (props) =>{
             Amount:event.target.value
         }))
     }
+    const AddExpenseHandler = async()=>{
+        try{
+            const response = await fetch('https://expense-tracker-3fdd0-default-rtdb.firebaseio.com/UserExpense',{
+                method:'POST',
+                body:JSON.stringify(userExpense),
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            })
+            if(!response.ok){
+                throw new Error('failed to send data')
+            }
+            const data = await response.json()
+            alert('Succesfully sent data to backend')
+        }
+        catch(error){
+            alert(error.message)
+        }
+    }
     const FormSubmitHandler = (event) =>{
         event.preventDefault();
         props.onTransfer(userExpense)
@@ -66,7 +85,7 @@ const ExpenseList = (props) =>{
                         value={userExpense.Amount}
                     />
                 </div>
-                <button type='submit'>Add Expense</button>
+                <button type='submit' onClick={AddExpenseHandler}>Add Expense</button>
             </form>
         </div>
     )
