@@ -5,7 +5,7 @@ const Welcome = () => {
     const AuthCtx = useContext(AuthContext)
     const navigate = useNavigate()
    const ProfileCompleteHandler = () =>{
-    navigate('/Profile')
+    navigate('/Profile');
    } 
    const verifyemailhandler = async () =>{
         try{
