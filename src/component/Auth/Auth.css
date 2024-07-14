@@ -1,3 +1,4 @@
+/* Auth.css */
 
 body {
     display: flex;
@@ -9,7 +10,17 @@ body {
     font-family: Arial, sans-serif;
   }
   
-  /* Sign-up box styles */
+  /* Container to center the auth box */
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Login box styles */
+  .login-box,
   .signup-container {
     background-color: white;
     padding: 30px;
@@ -18,6 +29,7 @@ body {
     width: 400px; /* Increased width */
   }
   
+  .login-box h1,
   .signup-container h1 {
     margin-bottom: 20px;
     text-align: center;
@@ -25,12 +37,14 @@ body {
     color: #333;
   }
   
+  .login-box form,
   .signup-container form {
     display: flex;
     flex-direction: column;
   }
   
   /* Input and label styles */
+  .login-box input,
   .signup-container input {
     border: 1px solid #ccc;
     padding: 15px; /* Increased padding */
@@ -40,12 +54,21 @@ body {
     width: calc(100% - 30px); /* Ensure input fields take up full width */
   }
   
+  .login-box input::placeholder,
   .signup-container input::placeholder {
     color: #aaa;
     font-size: 16px; /* Ensure placeholder text is larger as well */
   }
   
-  /* Sign-up button styles */
+  .login-box label,
+  .signup-container label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Login button styles */
+  .login-box button[type="submit"],
   .signup-container button[type="submit"] {
     background-color: #007bff;
     color: white;
@@ -56,11 +79,13 @@ body {
     font-size: 16px;
   }
   
+  .login-box button[type="submit"]:hover,
   .signup-container button[type="submit"]:hover {
     background-color: #0056b3;
   }
   
-  /* Login link styles */
+  /* Sign-in link styles */
+  .login-box button[type="button"],
   .signup-container .login-button {
     margin-top: 15px;
     padding: 10px;
@@ -71,6 +96,7 @@ body {
     color: #007bff;
   }
   
+  .login-box button[type="button"]:hover,
   .signup-container .login-button:hover {
     background-color: #e0f7e9;
   }
