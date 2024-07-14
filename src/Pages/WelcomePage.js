@@ -1,23 +1,31 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Welcome from "../component/Auth/Welcome";
 import ExpenseList from "../component/Expense/Expenselist";
 import Expense from "../component/Expense/Expense";
+
 const WelcomePage = () => {
-  const[ExpenseData,setExpenseData]=useState([])
-  const UserExpenseDataHandler = (userData)=>{
-    const newUserData = {id:Math.random(),...userData}
-    setExpenseData((PrevExpenseData)=>([
-      ...PrevExpenseData,
+  const [expenseData, setExpenseData] = useState([]);
+  const [selectedExpense, setSelectedExpense] = useState(null);
+
+  const userExpenseDataHandler = (userData) => {
+    const newUserData = { id: Math.random(), ...userData };
+    setExpenseData((prevExpenseData) => [
+      ...prevExpenseData,
       newUserData
-    ]))
-  }
-  return(
+    ]);
+  };
+
+  const handleEditExpense = (expense) => {
+    setSelectedExpense(expense);
+  };
+
+  return (
     <div>
-      <Welcome/>
-      <ExpenseList onTransfer={UserExpenseDataHandler}/>
-      <Expense expenses={ExpenseData}/>
+      <Welcome />
+      <ExpenseList onTransfer={userExpenseDataHandler} selectedExpense={selectedExpense} />
+      <Expense expenses={expenseData} onEdit={handleEditExpense} />
     </div>
-  )
+  );
 };
 
 export default WelcomePage;

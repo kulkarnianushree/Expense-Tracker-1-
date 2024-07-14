@@ -1,37 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const ExpenseList = (props) => {
+const ExpenseList = ({ onTransfer, selectedExpense }) => {
   const [userExpense, setUserExpense] = useState({
     Category: '',
     Description: '',
     Amount: ''
   });
 
-  const CategoryChangeHandler = (event) => {
+  useEffect(() => {
+    if (selectedExpense) {
+      setUserExpense(selectedExpense);
+    }
+  }, [selectedExpense]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setUserExpense((prevUserExpense) => ({
       ...prevUserExpense,
-      Category: event.target.value
+      [name]: value
     }));
   };
 
-  const DescriptionChangeHandler = (event) => {
-    setUserExpense((prevUserExpense) => ({
-      ...prevUserExpense,
-      Description: event.target.value
-    }));
-  };
+  const addExpenseHandler = async () => {
+    const method = selectedExpense ? 'PATCH' : 'POST';
+    const url = selectedExpense
+      ? `https://expense-tracker-3fdd0-default-rtdb.firebaseio.com/UserExpense/${selectedExpense.id}.json`
+      : 'https://expense-tracker-3fdd0-default-rtdb.firebaseio.com/UserExpense.json';
 
-  const AmountChangeHandler = (event) => {
-    setUserExpense((prevUserExpense) => ({
-      ...prevUserExpense,
-      Amount: event.target.value
-    }));
-  };
-
-  const AddExpenseHandler = async () => {
     try {
-      const response = await fetch('https://expense-tracker-3fdd0-default-rtdb.firebaseio.com/UserExpense.json', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method,
         body: JSON.stringify(userExpense),
         headers: {
           'Content-Type': 'application/json'
@@ -42,15 +40,15 @@ const ExpenseList = (props) => {
       }
       const data = await response.json();
       alert('Successfully sent data to backend');
+      onTransfer({ id: selectedExpense ? selectedExpense.id : data.name, ...userExpense });
     } catch (error) {
       alert(error.message);
     }
   };
 
-  const FormSubmitHandler = (event) => {
+  const formSubmitHandler = (event) => {
     event.preventDefault();
-    AddExpenseHandler();
-    props.onTransfer(userExpense);
+    addExpenseHandler();
     setUserExpense({
       Category: '',
       Description: '',
@@ -60,26 +58,27 @@ const ExpenseList = (props) => {
 
   return (
     <div>
-      <form onSubmit={FormSubmitHandler}>
+      <form onSubmit={formSubmitHandler}>
         <div>
           <label>Category</label>
-          <select onChange={CategoryChangeHandler} value={userExpense.Category}>
-            <option>default</option>
-            <option>Food</option>
-            <option>Shopping</option>
-            <option>EMI</option>
-            <option>Entertainment</option>
-            <option>Rent</option>
-            <option>Electricity Bill</option>
-            <option>Water Bill</option>
-            <option>SBI Card Payment</option>
+          <select name="Category" onChange={handleChange} value={userExpense.Category}>
+            <option value="default">default</option>
+            <option value="Food">Food</option>
+            <option value="Shopping">Shopping</option>
+            <option value="EMI">EMI</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Rent">Rent</option>
+            <option value="Electricity Bill">Electricity Bill</option>
+            <option value="Water Bill">Water Bill</option>
+            <option value="SBI Card Payment">SBI Card Payment</option>
           </select>
         </div>
         <div>
           <label>Description</label>
           <input
             type="text"
-            onChange={DescriptionChangeHandler}
+            name="Description"
+            onChange={handleChange}
             value={userExpense.Description}
           />
         </div>
@@ -87,11 +86,12 @@ const ExpenseList = (props) => {
           <label>Amount</label>
           <input
             type="number"
-            onChange={AmountChangeHandler}
+            name="Amount"
+            onChange={handleChange}
             value={userExpense.Amount}
           />
         </div>
-        <button type="submit">Add Expense</button>
+        <button type="submit">{selectedExpense ? 'Update Expense' : 'Add Expense'}</button>
       </form>
     </div>
   );
