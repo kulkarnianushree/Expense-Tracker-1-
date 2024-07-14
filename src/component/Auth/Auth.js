@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 import AuthContext from "../../Store/auth-content";
 import Welcome from "./Welcome";
+import ForgotPassword from "./Forgot-Password";
 
 const Auth = () => {
   const [isSignin, setIsSignin] = useState(false);
@@ -102,7 +103,7 @@ const Auth = () => {
       const data = await response.json();
       authctx.login(data.idToken);
       setLoggedIn(true);
-      navigate("/Welcome"); // Redirect to the Welcome page
+      navigate("/Welcome"); 
     } catch (error) {
       console.log(error.message);
     }
@@ -111,6 +112,10 @@ const Auth = () => {
   const NewUserButtonHandler = () => {
     setIsSignin(true);
   };
+
+  const ForgotPasswordHandler = () =>{
+    navigate('/ForgotPassword')
+  }
 
   return (
     <div className="auth-container">
@@ -175,14 +180,17 @@ const Auth = () => {
                 required
               />
             </div>
+            <button type="button" onClick={ForgotPasswordHandler}>Forgot Password</button>
             <button type="submit">Login</button>
           </form>
+          
           <button type="button" onClick={NewUserButtonHandler}>
             New User? Sign Up
           </button>
         </div>
       )}
       {loggedIn && <Welcome />}
+      <ForgotPassword email={UserDetail.Email}/>
     </div>
   );
 };

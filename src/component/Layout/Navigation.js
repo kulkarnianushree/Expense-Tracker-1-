@@ -14,6 +14,9 @@ const Navigation = () => {
 
   return (
     <nav>
+        {!authctx.isLoggedIn && (<li>
+            <NavLink to='/ForgotPassword'/>
+        </li>)}
       <ul>
        
         {authctx.isLoggedIn && (
