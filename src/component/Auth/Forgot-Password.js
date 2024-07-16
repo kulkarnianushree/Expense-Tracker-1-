@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthPage from "../../Pages/AuthPage";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-
+  const navigation = useNavigate()
   const emailChangeHandler = (event) => {
     setEmail(event.target.value);
   };
@@ -31,7 +33,9 @@ const ForgotPassword = () => {
       alert(error.message);
     }
   };
-
+  const GoBackHandler = () =>{
+    navigation(<AuthPage/>)
+  }
   return (
     <div>
       <form>
@@ -44,6 +48,7 @@ const ForgotPassword = () => {
           />
         </div>
         <button type="button" onClick={SendLinkHandler}>Send Link</button>
+        <button type="button" onClick={GoBackHandler}>Go Back</button>
       </form>
     </div>
   );

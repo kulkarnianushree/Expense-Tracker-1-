@@ -1,37 +1,39 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
+import { AuthAction } from "../../Store/auth";
 import "./Auth.css";
-import AuthContext from "../../Store/auth-content";
 import Welcome from "./Welcome";
 import ForgotPassword from "./Forgot-Password";
 
 const Auth = () => {
+  const loginStatus = useSelector(state => state.auth.isLoggedin)
+  const dispatch = useDispatch()
   const [isSignin, setIsSignin] = useState(false);
+  const[ForgotPassword,setForgotPassword] = useState(false)
   const [UserDetail, setUserDetail] = useState({
     Email: "",
     Password: "",
     ConfirmPassword: "",
   });
-  const [loggedIn, setLoggedIn] = useState(false);
-  const authctx = useContext(AuthContext);
   const navigate = useNavigate();
 
   const EmailChangeHandler = (event) => {
-    setUserDetail((prevUserDetails) => ({
+    setUserDetail(prevUserDetails => ({
       ...prevUserDetails,
       Email: event.target.value,
     }));
   };
 
   const PasswordChangeHandler = (event) => {
-    setUserDetail((prevUserDetails) => ({
+    setUserDetail(prevUserDetails => ({
       ...prevUserDetails,
       Password: event.target.value,
     }));
   };
 
   const ConfirmPasswordChangeHandler = (event) => {
-    setUserDetail((prevUserDetails) => ({
+    setUserDetail(prevUserDetails => ({
       ...prevUserDetails,
       ConfirmPassword: event.target.value,
     }));
@@ -40,12 +42,10 @@ const Auth = () => {
   const SigninButtonHandler = async (event) => {
     event.preventDefault();
 
-    if (
-      UserDetail.Email.trim().length > 0 &&
-      UserDetail.Password.trim().length > 6 &&
-      UserDetail.ConfirmPassword.trim().length > 6 &&
-      UserDetail.Password === UserDetail.ConfirmPassword
-    ) {
+    if (UserDetail.Email.trim().length > 0 &&
+        UserDetail.Password.trim().length > 6 &&
+        UserDetail.ConfirmPassword.trim().length > 6 &&
+        UserDetail.Password === UserDetail.ConfirmPassword) {
       try {
         const response = await fetch(
           "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDDlybY9oSYa0NreurM1v2BQ1v9Monw07A",
@@ -101,9 +101,10 @@ const Auth = () => {
         throw new Error("Authentication Failed");
       }
       const data = await response.json();
-      authctx.login(data.idToken);
-      setLoggedIn(true);
-      navigate("/Welcome"); 
+      dispatch(AuthAction.login(data.idToken))
+      if (loginStatus) {
+        navigate("/Welcome");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -113,8 +114,8 @@ const Auth = () => {
     setIsSignin(true);
   };
 
-  const ForgotPasswordHandler = () =>{
-    navigate('/ForgotPassword')
+  const ForgotPasswordHandler = () => {
+    setForgotPassword(true)
   }
 
   return (
@@ -183,14 +184,13 @@ const Auth = () => {
             <button type="button" onClick={ForgotPasswordHandler}>Forgot Password</button>
             <button type="submit">Login</button>
           </form>
-          
           <button type="button" onClick={NewUserButtonHandler}>
             New User? Sign Up
           </button>
         </div>
       )}
-      {loggedIn && <Welcome />}
-      <ForgotPassword email={UserDetail.Email}/>
+      {loginStatus && <Welcome />}
+      {ForgotPassword && <ForgotPassword email={UserDetail.Email} />}
     </div>
   );
 };

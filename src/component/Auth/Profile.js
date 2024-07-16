@@ -1,13 +1,15 @@
-import React, { useState, useContext, useEffect } from "react";
-import AuthContext from "../../Store/auth-content";
-
+import React, { useState, useEffect } from "react";
+import {useSelector} from 'react-redux'
+import {Navigate, useNavigate} from 'react-router-dom'
 const Profile = () => {
+  const token = useSelector(state => state.auth.token)
+  const navigation = useNavigate()
   const [UserInfo, setUserInfo] = useState({
     Name: '',
     URL: ''
   });
   
-  const AuthCtx = useContext(AuthContext);
+ 
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -15,7 +17,7 @@ const Profile = () => {
         const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDDlybY9oSYa0NreurM1v2BQ1v9Monw07A', {
           method: 'POST',
           body: JSON.stringify({
-            idToken: AuthCtx.token
+            idToken:token
           }),
           headers: {
             'Content-Type': 'application/json'
@@ -39,7 +41,7 @@ const Profile = () => {
     };
 
     fetchUserData();
-  }, [AuthCtx.token]);
+  }, [token]);
 
   const NameChangeHandler = (event) => {
     setUserInfo((PrevUserInfo) => ({
@@ -60,7 +62,7 @@ const Profile = () => {
       const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDDlybY9oSYa0NreurM1v2BQ1v9Monw07A', {
         method: 'POST',
         body: JSON.stringify({
-          idToken: AuthCtx.token,
+          idToken:token,
           displayName: UserInfo.Name,
           photoURL: UserInfo.URL,
           returnSecureToken: true
@@ -75,11 +77,15 @@ const Profile = () => {
       }
 
       const data = await response.json();
-      console.log(data); // Log the response data upon success
+      console.log(data); 
     } catch (error) {
       console.log(error.message);
     }
   };
+
+  const CancelButtonHandler =()=>{
+    navigation('/welcome')
+  }
 
   return (
     <div>
@@ -94,7 +100,7 @@ const Profile = () => {
       <form>
         <div>
           <h2>Contact Details</h2>
-          <button>Cancel</button>
+          <button onClick={CancelButtonHandler}>Cancel</button>
         </div>
         <div>
           <label>Full Name</label>

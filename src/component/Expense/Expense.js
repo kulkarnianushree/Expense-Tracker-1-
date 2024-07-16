@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import './Expenses.css';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { ExpenseAction } from '../../Store/expenseSlice';
+import './Expenses.css'
 
 const Expense = ({ onEdit }) => {
-  const [expenses, setExpenses] = useState([]);
+  const dispatch = useDispatch();
+  const expenses = useSelector(state => state.expenses.expenses);
+
+  console.log('Expenses:', expenses);
 
   const fetchExpenses = async () => {
     try {
@@ -15,10 +20,11 @@ const Expense = ({ onEdit }) => {
       for (const key in data) {
         loadedExpenses.push({
           id: key,
-          ...data[key]
+         ...data[key]
         });
       }
-      setExpenses(loadedExpenses);
+      dispatch(ExpenseAction.setExpenses(loadedExpenses));
+      console.log('Dispatched setExpenses:', loadedExpenses);
     } catch (error) {
       console.error('Error fetching expenses:', error);
     }
@@ -26,11 +32,7 @@ const Expense = ({ onEdit }) => {
 
   useEffect(() => {
     fetchExpenses();
-  }, []);
-
-  useEffect(() => {
-    fetchExpenses();
-  }, [onEdit]);
+  }, [dispatch]);
 
   const deleteExpenseHandler = async (expenseId) => {
     try {
@@ -40,10 +42,10 @@ const Expense = ({ onEdit }) => {
       if (!response.ok) {
         throw new Error('Failed to delete expense');
       }
-      setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== expenseId));
+      dispatch(ExpenseAction.deleteExpense(expenseId));
       alert('Successfully deleted expense');
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     }
   };
 
@@ -70,6 +72,7 @@ const Expense = ({ onEdit }) => {
             </table>
             <button type="button" onClick={() => onEdit(expense)}>EDIT</button>
             <button type="button" onClick={() => deleteExpenseHandler(expense.id)}>DELETE</button>
+            {expense.Amount > 10000 && <button type='button'>Premium</button>}
           </li>
         ))}
       </ul>

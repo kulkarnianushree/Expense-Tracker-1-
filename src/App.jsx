@@ -1,25 +1,25 @@
-// App.js
-import React from "react";
+import React from "react"
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import AuthPage from "./Pages/AuthPage";
 import WelcomePage from "./Pages/WelcomePage";
 import Navigation from "./component/Layout/Navigation";
 import ProfilePage from "./Pages/ProfilePage";
-import { AuthContextProvider } from "./Store/auth-content";
 import ForgotPasswordPage from "./Pages/Forgot-PasswordPage";
+import { useSelector } from "react-redux";
 
 function App() {
+  const loginstatus = useSelector((state) => state.auth.isLoggedin);
+
   return (
     <Router>
-      <AuthContextProvider>
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<AuthPage />} />
-          <Route path="/welcome" element={<WelcomePage />} />
-          <Route path="/Profile" element={<ProfilePage/>}/>
-          <Route path="/ForgotPassword" element={<ForgotPasswordPage/>}/>
-        </Routes>
-      </AuthContextProvider>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={loginstatus ? <Navigate to="/welcome" /> : <AuthPage />} />
+        <Route path="/welcome" element={loginstatus ? <WelcomePage /> : <Navigate to="/" />} />
+        <Route path="/Profile" element={loginstatus ? <ProfilePage /> : <Navigate to="/" />} />
+        <Route path="/ForgotPassword" element={loginstatus ? <Navigate to="/welcome" /> : <ForgotPasswordPage />} />
+        <Route path="*" element={<Navigate to="/" />} /> {/* Redirect any unknown routes to the home page */}
+      </Routes>
     </Router>
   );
 }

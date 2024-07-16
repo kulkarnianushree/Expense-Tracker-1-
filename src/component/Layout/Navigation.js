@@ -1,37 +1,36 @@
-// Navigation.js
-import React, { useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import AuthContext from "../../Store/auth-content";
-import "./Navigation.css";
 
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import {useSelector,useDispatch} from 'react-redux'
+import { AuthAction } from "../../Store/auth";
+import "./Navigation.css";
 const Navigation = () => {
-  const authctx = useContext(AuthContext);
-  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const navigation = useNavigate()
+  const loginstatus = useSelector(state => state.auth.isLoggedin)
   const handleLogout = () => {
-    authctx.logout(); 
-    navigate('/')
+    dispatch(AuthAction.logout())
+    navigation('/')
   };
 
   return (
     <nav>
-        {!authctx.isLoggedIn && (<li>
-            <NavLink to='/ForgotPassword'/>
-        </li>)}
-      <ul>
-       
-        {authctx.isLoggedIn && (
-            <ul>
-                <li>
-                    <NavLink to="/welcome"/>
-                </li>
-                <li>
-                    <NavLink to='/Profile'/>
-                </li>
-            </ul>
-        
-        )}
-      </ul>
-      {authctx.isLoggedIn && (
+      {!loginstatus && (
+        <li>
+          <NavLink to='/ForgotPassword'/>
+        </li>
+      )}
+      {loginstatus && (
+        <ul>
+          <li>
+            <NavLink to="/welcome"/>
+          </li>
+          <li>
+            <NavLink to='/Profile'/>
+          </li>
+        </ul>
+      )}
+      {loginstatus && (
         <button type="button" onClick={handleLogout}>
           Logout
         </button>
