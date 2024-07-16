@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ExpenseAction } from '../../Store/expenseSlice';
 import './Expenses.css'
@@ -6,7 +7,7 @@ import './Expenses.css'
 const Expense = ({ onEdit }) => {
   const dispatch = useDispatch();
   const expenses = useSelector(state => state.expenses.expenses);
-
+  const navigate = useNavigate()
   console.log('Expenses:', expenses);
 
   const fetchExpenses = async () => {
@@ -48,7 +49,9 @@ const Expense = ({ onEdit }) => {
       alert(error.message);
     }
   };
-
+  const PremiumHandler = () =>{
+    navigate('/download')
+  }
   return (
     <div>
       <ul className="expense-list">
@@ -72,7 +75,7 @@ const Expense = ({ onEdit }) => {
             </table>
             <button type="button" onClick={() => onEdit(expense)}>EDIT</button>
             <button type="button" onClick={() => deleteExpenseHandler(expense.id)}>DELETE</button>
-            {expense.Amount > 10000 && <button type='button'>Premium</button>}
+            {expense.Amount > 10000 && <button type='button' onClick={PremiumHandler}>Premium</button>}
           </li>
         ))}
       </ul>

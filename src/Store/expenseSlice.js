@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const initialState = {
   expenses: [],
+  theme: 'gray'
 };
 
 const expensesSlice = createSlice({
@@ -12,8 +14,14 @@ const expensesSlice = createSlice({
       state.expenses = action.payload;
     },
     deleteExpense(state, action) {
-      state.expenses = state.expenses.filter(expense => expense.id!== action.payload);
+      state.expenses = state.expenses.filter(expense => expense.id !== action.payload);
     },
+    toggle(state) {
+      state.theme = state.theme === 'gray' ? 'white' : 'gray';
+    },
+    DownloadFile(state){
+        
+    }
   },
 });
 

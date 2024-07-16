@@ -10,7 +10,7 @@ const Auth = () => {
   const loginStatus = useSelector(state => state.auth.isLoggedin)
   const dispatch = useDispatch()
   const [isSignin, setIsSignin] = useState(false);
-  const[ForgotPassword,setForgotPassword] = useState(false)
+  const[forgotPassword,setForgotPassword] = useState(false)
   const [UserDetail, setUserDetail] = useState({
     Email: "",
     Password: "",
@@ -190,7 +190,7 @@ const Auth = () => {
         </div>
       )}
       {loginStatus && <Welcome />}
-      {ForgotPassword && <ForgotPassword email={UserDetail.Email} />}
+      {forgotPassword && <ForgotPassword email={UserDetail.Email} />}
     </div>
   );
 };

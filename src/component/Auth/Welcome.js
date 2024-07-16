@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
 const Welcome = () => {
   const token = useSelector((state) => state.auth.token);
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Welcome = () => {
       }
 
       const response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDDlybY9oSYa0NreurM1v2BQ1v9Monw07A",
+        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=YOUR_API_KEY",
         {
           method: "POST",
           body: JSON.stringify({
@@ -43,15 +44,17 @@ const Welcome = () => {
   };
 
   return (
-    <div>
-      <h3>Welcome To Expense Tracker</h3>
-      <p>
-        Your Profile is Incomplete
-        <button onClick={ProfileCompleteHandler}>Complete now</button>
+    <div className="container">
+      <h3 className="title">Welcome To Expense Tracker</h3>
+      <p className="message">
+        Your Profile is Incomplete. Complete it now.
       </p>
-      <button type="submit" onClick={verifyemailhandler}>
-        Verify Email
-      </button>
+      <div className="buttons">
+        <button onClick={ProfileCompleteHandler}>Complete now</button>
+        <button type="submit" onClick={verifyemailhandler}>
+          Verify Email
+        </button>
+      </div>
     </div>
   );
 };

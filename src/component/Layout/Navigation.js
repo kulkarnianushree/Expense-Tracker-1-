@@ -30,6 +30,9 @@ const Navigation = () => {
           </li>
         </ul>
       )}
+      <li>
+        <NavLink to='/download'/>
+      </li>
       {loginstatus && (
         <button type="button" onClick={handleLogout}>
           Logout

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthPage from "../../Pages/AuthPage";
+
+
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const navigation = useNavigate()
+  const navigation = useNavigate();
+
   const emailChangeHandler = (event) => {
     setEmail(event.target.value);
   };
@@ -23,7 +25,7 @@ const ForgotPassword = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Try again');
+        throw new Error('Failed to send link. Please try again.');
       }
 
       const data = await response.json();
@@ -33,18 +35,21 @@ const ForgotPassword = () => {
       alert(error.message);
     }
   };
-  const GoBackHandler = () =>{
-    navigation(<AuthPage/>)
-  }
+
+  const GoBackHandler = () => {
+    navigation('/');
+  };
+
   return (
-    <div>
+    <div className="container">
       <form>
-        <div>
-          <label>Enter Registered E-mail</label>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={emailChangeHandler} 
+        <div className="form-group">
+          <label htmlFor="email">Enter Registered E-mail</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={emailChangeHandler}
           />
         </div>
         <button type="button" onClick={SendLinkHandler}>Send Link</button>
