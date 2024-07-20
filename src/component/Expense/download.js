@@ -1,7 +1,7 @@
 import React from 'react';
-import './download.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { ExpenseAction } from '../../Store/expenseSlice';
+import './download.css'; // Import the CSS file
 
 const Download = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const Download = () => {
 
   const downloadHandler = () => {
     const csvRows = [
-      ['Category', 'Description', 'Amount'], // Headers
+      ['Category', 'Description', 'Amount'],
       ...expenses.map(expense => [expense.Category, expense.Description, expense.Amount])
     ];
     

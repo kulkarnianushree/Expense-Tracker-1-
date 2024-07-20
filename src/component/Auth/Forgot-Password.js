@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./ForgotPassword.css";
 
-
-
-const ForgotPassword = () => {
+const ForgotPassword = ({ setForgotPassword }) => {
   const [email, setEmail] = useState('');
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const emailChangeHandler = (event) => {
     setEmail(event.target.value);
@@ -37,7 +36,7 @@ const ForgotPassword = () => {
   };
 
   const GoBackHandler = () => {
-    navigation('/');
+    setForgotPassword(false);
   };
 
   return (

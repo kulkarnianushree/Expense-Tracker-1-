@@ -1,40 +1,44 @@
-
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import {useSelector,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import { AuthAction } from "../../Store/auth";
 import "./Navigation.css";
+
 const Navigation = () => {
-  const dispatch = useDispatch()
-  const navigation = useNavigate()
-  const loginstatus = useSelector(state => state.auth.isLoggedin)
+  const dispatch = useDispatch();
+  const navigation = useNavigate();
+  const loginstatus = useSelector(state => state.auth.isLoggedin);
+
   const handleLogout = () => {
-    dispatch(AuthAction.logout())
-    navigation('/')
+    dispatch(AuthAction.logout());
+    navigation('/');
   };
 
   return (
     <nav>
-      {!loginstatus && (
-        <li>
-          <NavLink to='/ForgotPassword'/>
-        </li>
-      )}
-      {loginstatus && (
-        <ul>
+      <ul className="nav-links">
+        {!loginstatus && (
           <li>
-            <NavLink to="/welcome"/>
+            <NavLink to='/ForgotPassword'></NavLink>
           </li>
-          <li>
-            <NavLink to='/Profile'/>
-          </li>
-        </ul>
-      )}
-      <li>
-        <NavLink to='/download'/>
-      </li>
+        )}
+        {loginstatus && (
+          <>
+            <li>
+              <NavLink to="/welcome"></NavLink>
+            </li>
+            <li>
+              <NavLink to='/Profile'></NavLink>
+            </li>
+            <li>
+              <NavLink to='/download'></NavLink>
+            </li>
+          </>
+        )}
+
+      </ul>
       {loginstatus && (
-        <button type="button" onClick={handleLogout}>
+        <button className="logout-button" type="button" onClick={handleLogout}>
           Logout
         </button>
       )}

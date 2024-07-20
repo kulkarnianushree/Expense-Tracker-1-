@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import "./Welcome.css";
 
 const Welcome = () => {
   const token = useSelector((state) => state.auth.token);
@@ -18,7 +18,7 @@ const Welcome = () => {
       }
 
       const response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=YOUR_API_KEY",
+        "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDDlybY9oSYa0NreurM1v2BQ1v9Monw07A",
         {
           method: "POST",
           body: JSON.stringify({

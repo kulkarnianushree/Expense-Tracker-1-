@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Expenselist.css'; // Import the CSS file
 
 const ExpenseList = ({ onTransfer, selectedExpense }) => {
   const [userExpense, setUserExpense] = useState({
@@ -57,12 +58,12 @@ const ExpenseList = ({ onTransfer, selectedExpense }) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <form onSubmit={formSubmitHandler}>
         <div>
           <label>Category</label>
           <select name="Category" onChange={handleChange} value={userExpense.Category}>
-            <option value="default">default</option>
+            <option value="">Select Category</option>
             <option value="Food">Food</option>
             <option value="Shopping">Shopping</option>
             <option value="EMI">EMI</option>

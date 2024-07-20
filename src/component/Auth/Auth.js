@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import { AuthAction } from "../../Store/auth";
 import "./Auth.css";
 import Welcome from "./Welcome";
 import ForgotPassword from "./Forgot-Password";
 
 const Auth = () => {
-  const loginStatus = useSelector(state => state.auth.isLoggedin)
-  const dispatch = useDispatch()
+  const loginStatus = useSelector(state => state.auth.isLoggedin);
+  const dispatch = useDispatch();
   const [isSignin, setIsSignin] = useState(false);
-  const[forgotPassword,setForgotPassword] = useState(false)
+  const [forgotPassword, setForgotPassword] = useState(false);
   const [UserDetail, setUserDetail] = useState({
     Email: "",
     Password: "",
@@ -101,7 +101,7 @@ const Auth = () => {
         throw new Error("Authentication Failed");
       }
       const data = await response.json();
-      dispatch(AuthAction.login(data.idToken))
+      dispatch(AuthAction.login(data.idToken));
       if (loginStatus) {
         navigate("/Welcome");
       }
@@ -115,8 +115,8 @@ const Auth = () => {
   };
 
   const ForgotPasswordHandler = () => {
-    setForgotPassword(true)
-  }
+    setForgotPassword(true);
+  };
 
   return (
     <div className="auth-container">
@@ -151,12 +151,14 @@ const Auth = () => {
                 required
               />
             </div>
-            <button type="submit">Sign Up</button>
+            <button type="submit" className="signup-button">Sign Up</button>
           </form>
           <button className="login-button" onClick={() => setIsSignin(false)}>
             Have an account? Login
           </button>
         </div>
+      ) : forgotPassword ? (
+        <ForgotPassword setForgotPassword={setForgotPassword} />
       ) : (
         <div className="login-box">
           <h1>Login</h1>
@@ -181,16 +183,15 @@ const Auth = () => {
                 required
               />
             </div>
-            <button type="button" onClick={ForgotPasswordHandler}>Forgot Password</button>
-            <button type="submit">Login</button>
+            <button type="button" className="forgot-password-button" onClick={ForgotPasswordHandler}>Forgot Password</button>
+            <button type="submit" className="login-button">Login</button>
           </form>
-          <button type="button" onClick={NewUserButtonHandler}>
+          <button type="button" className="signup-button" onClick={NewUserButtonHandler}>
             New User? Sign Up
           </button>
         </div>
       )}
       {loginStatus && <Welcome />}
-      {forgotPassword && <ForgotPassword email={UserDetail.Email} />}
     </div>
   );
 };
